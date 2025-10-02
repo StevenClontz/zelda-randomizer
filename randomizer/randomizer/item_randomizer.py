@@ -34,6 +34,49 @@ class ItemRandomizer():
   ARMOS_ITEM_LOCATION = Location.CavePosition(20, 2)
   COAST_ITEM_LOCATION = Location.CavePosition(21, 2)
 
+  #Dict for item lookup
+  DOWNGRADED_ITEM = {
+    Item.BOMBS: Item.BOMBS,
+    Item.WOOD_SWORD: Item.WOOD_SWORD,
+    Item.WHITE_SWORD: Item.WOOD_SWORD,
+    Item.MAGICAL_SWORD: Item.WOOD_SWORD,
+    Item.NO_ITEM: Item.NO_ITEM,
+    Item.BAIT: Item.BAIT,
+    Item.RECORDER: Item.RECORDER,
+    Item.BLUE_CANDLE: Item.BLUE_CANDLE,
+    Item.RED_CANDLE: Item.BLUE_CANDLE,
+    Item.WOOD_ARROWS: Item.WOOD_ARROWS,
+    Item.SILVER_ARROWS: Item.WOOD_ARROWS,
+    Item.BOW: Item.BOW,
+    Item.MAGICAL_KEY: Item.MAGICAL_KEY,
+    Item.RAFT: Item.RAFT,
+    Item.LADDER: Item.LADDER,
+    Item.TRIFORCE_OF_POWER: Item.TRIFORCE_OF_POWER,
+    Item.FIVE_RUPEES: Item.FIVE_RUPEES,
+    Item.WAND: Item.WAND,
+    Item.BOOK: Item.BOOK,
+    Item.BLUE_RING: Item.BLUE_RING,
+    Item.RED_RING: Item.BLUE_RING,
+    Item.POWER_BRACELET: Item.POWER_BRACELET,
+    Item.LETTER: Item.LETTER,
+    Item.COMPASS: Item.COMPASS,
+    Item.MAP: Item.MAP,
+    Item.RUPEE: Item.RUPEE,
+    Item.KEY: Item.KEY,
+    Item.HEART_CONTAINER: Item.HEART_CONTAINER,
+    Item.TRIFORCE: Item.TRIFORCE,
+    Item.MAGICAL_SHIELD: Item.MAGICAL_SHIELD,
+    Item.WOODEN_BOOMERANG: Item.WOODEN_BOOMERANG,
+    Item.MAGICAL_BOOMERANG: Item.MAGICAL_BOOMERANG,
+    #Item.MAGICAL_BOOMERANG: Item.WOODEN_BOOMERANG, #Removed this b/c some don't consider magical boomerang to be an upgrade
+    Item.BLUE_POTION: Item.BLUE_POTION,
+    Item.RED_POTION: Item.RED_POTION,
+    Item.SINGLE_HEART: Item.SINGLE_HEART,
+    Item.OVERWORLD_NO_ITEM: Item.OVERWORLD_NO_ITEM,
+    Item.BEAST_DEFEATED_VIRTUAL_ITEM: Item.BEAST_DEFEATED_VIRTUAL_ITEM,
+    Item.KIDNAPPED_RESCUED_VIRTUAL_ITEM: Item.KIDNAPPED_RESCUED_VIRTUAL_ITEM
+  }
+
   def _GetOverworldItemsToShuffle(self) -> List[Location]:
     items: List[Location] = []
     if self.flags.shuffle_white_sword:
@@ -153,21 +196,9 @@ class ItemShuffler():
     
     if item_num in [Item.MAP, Item.COMPASS, Item.TRIFORCE, Item.HEART_CONTAINER]:
       return
-    #TODO: This would be more elgant with a dict lookup
+    #TO DONE: Dict Lookup has been applied
     if self.flags.progressive_items:
-      if item_num == Item.RED_CANDLE:
-        item_num = Item.BLUE_CANDLE
-      if item_num == Item.RED_RING:
-        item_num = Item.BLUE_RING
-      if item_num == Item.SILVER_ARROWS:
-        item_num = Item.WOOD_ARROWS
-      if item_num == Item.WHITE_SWORD:
-        item_num = Item.WOOD_SWORD
-      if item_num == Item.MAGICAL_SWORD:
-        item_num = Item.WOOD_SWORD
-      # Removed this b/c some don't consider magical boomerang to be an upgrade
-      #if item_num == Item.MAGICAL_BOOMERANG:
-      #  item_num = Item.WOODEN_BOOMERANG
+      item_num = ItemRandomizer.DOWNGRADED_ITEM[item_num]
 
     self.item_num_list.append(item_num)
     log.debug("Item #%d: %s. From %s" % (len(self.item_num_list), item_num, location.ToString()))
