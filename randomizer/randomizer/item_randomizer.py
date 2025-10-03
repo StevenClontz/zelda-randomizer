@@ -153,7 +153,6 @@ class ItemShuffler():
     
     if item_num in [Item.MAP, Item.COMPASS, Item.TRIFORCE, Item.HEART_CONTAINER]:
       return
-    #TO DONE: Dict Lookup has been applied
     if self.flags.progressive_items:
       item_num = Downgrades.DOWNGRADED_ITEM[item_num]
 
